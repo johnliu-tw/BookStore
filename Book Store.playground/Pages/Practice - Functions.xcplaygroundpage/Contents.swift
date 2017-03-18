@@ -22,7 +22,9 @@
 let books: [[String: String]] = [
     ["author": "Dan Brown", "title": "Digital Fortress", "price": "9.99"],
     ["author": "Dan Brown", "title": "Deception Point", "price": "17.00"],
-    ["author": "J.K. Rowling", "title": "Harry Potter and the Sorcerer's Stone", "price": "10.99"],
+    ["author": "Dan Brown", "title": "Angels & Demons", "price": "17.00"],
+    ["author": "Dan Brown", "title": "The Da Vinci Code", "price": "9.99"],
+    ["author": "J.K. Rowling", "title": "Harry Potter and the Goblet of Fire", "price": "12.99"],
     ["author": "J.K. Rowling", "title": "Harry Potter and the Goblet of Fire", "price": "12.99"],
     ["author": "J.K. Rowling", "title": "Harry Potter and the Deathly Hallows", "price": "14.99"],
     ["author": "詹宏志", "title": "旅行與讀書", "price": "12.00"],
@@ -58,16 +60,32 @@ func distinctAuthors() -> Set<String> {
     }
     return authors
   };
-// or this
-//func distinctAuthors() -> [String] { ... }
-// then
 bookStore.setDataSource(authorsGetter: distinctAuthors)
 
-//func totalBookPrice() -> Double { ... }
-//bookStore.setDataSource(priceCalculator: totalBookPrice)
+func totalBookPrice() -> Double {
+    var totalPrice:Double = 0.0;
+    for index in 0...books.count-1{
+        totalPrice = Double(books[index]["price"]!)! + totalPrice
+    }
+    return totalPrice
+}
+bookStore.setDataSource(priceCalculator: totalBookPrice)
 
-//func getBook(at index: Int) -> (title: String, author: String, price: Double)? { return nil }
-//bookStore.setDataSource(bookGetter: getBook(at:))
+func getBook(at index: Int) -> (title: String, author: String, price: Double)? {
+    let innerIndex:Int = index
+    var bookTitle:String = " "
+    var bookAuthor:String = " "
+    var bookPrice:Double = 0.0
+    if( innerIndex < 9 ) {
+     bookTitle = books[index]["title"]!
+     bookAuthor = books[index]["author"]!
+     bookPrice = Double(books[index]["price"]!)!
+        return (bookTitle,bookAuthor,bookPrice)
+    }
+    
+        return nil
+}
+bookStore.setDataSource(bookGetter: getBook(at:))
 
 /*:
 

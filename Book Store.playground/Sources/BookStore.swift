@@ -30,7 +30,8 @@ public struct BookStore {
         var books = [Book]()
         var index = 0
         while let book = bookGetter(index) {
-            defer { index += 1 }
+            defer { index += 1
+            }
             books.append(book)
         }
         self.books = books
